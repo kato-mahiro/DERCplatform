@@ -1,5 +1,8 @@
+from flask import Flask, flash, render_template, request, session, redirect, send_file, g, Blueprint
 #ホームページ
-@app.route('/', methods=['GET'])
+bp_home = Blueprint('home', __name__)
+
+@bp_home.route('/', methods=['GET'])
 def Home():
     
     if 'login' in session and session['login']:
@@ -41,7 +44,7 @@ def Home():
     else:
         return redirect('/Login')
 
-@app.route('/', methods=['POST'])
+@bp_home.route('/', methods=['POST'])
 def Home_post():
     name = session['name']
     ritaname = request.form.get('ritaperson')

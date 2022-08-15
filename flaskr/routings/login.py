@@ -1,12 +1,16 @@
+from flask import Flask, flash, render_template, request, session, redirect, send_file, g, Blueprint
+#ホームページ
+bp_login = Blueprint('login', __name__)
+
 #ログインページ
-@app.route('/Login', methods=['GET'])
+@bp_login.route('/Login', methods=['GET'])
 def Login():
     return render_template('Login.html',
             title='Login page',
             err=False,)
             
 #入力された名前とpasswordがスプレッドシートと合致していたらログインできる。
-@app.route('/Login', methods=['POST'])
+@bp_login.route('/Login', methods=['POST'])
 def login_post():
     Number = 1
     global member_data
