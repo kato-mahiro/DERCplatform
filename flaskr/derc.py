@@ -16,8 +16,7 @@ from sqlalchemy import create_engine, Column, Integer, String#以下4文SQLAlche
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.exc import NoResultFound
-from routings.home import *
-from routings.login import *
+from routings import *
 
 
 ###################スプレッドシート操作
@@ -73,8 +72,8 @@ ritasheet = SPREADSHEET_rita.worksheet('利他行為')
 
 app = Flask(__name__)
 app.secret_key = b'random string...'
-app.register_blueprint(bp_home)
-app.register_blueprint(bp_login)
+app.register_blueprint(home.bp_home)
+app.register_blueprint(login.bp_login)
 
 engine = create_engine('sqlite:///derc.db',
 connect_args={'check_same_thread': False}
