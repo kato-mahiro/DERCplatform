@@ -1,3 +1,13 @@
+from slack_sdk import WebClient
+from sqlalchemy import create_engine, Column, Integer, String#以下4文SQLAlchemyのためのimport
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.ext.declarative import declarative_base
+from global_settings import * #HACK: Utilsがパラメータにアクセスしている最悪設計なので後で直す
+import numpy as np
+import sqlite3
+from flask import g
 # get Database Object.
 def get_db():
     if 'db' not in g:
@@ -10,6 +20,11 @@ def close_db(e=None):
 
     if db is not None:
         db.close()
+
+Base = declarative_base()#SQLAlchemyのため
+engine = create_engine('sqlite:///derc.db',
+connect_args={'check_same_thread': False}
+)#SQLAlchemyのため
 
 #下のDBのバッヂ情報を更新するための関数(def updateBadgeinfo(id))
 def updateBadgeinfoDB(badgeinfo,id):    
@@ -500,3 +515,23 @@ def UpdateDB():
         ses.add(BadgedataDBss)
         ses.commit()
         ses.close()
+
+# model class（mydata用）
+class Mydata(Base):
+    __tablename__ = 'mydata'
+    __table_args__ = {'extend_existing': True}
+ 
+    id = Column(Integer, primary_key=True)
+    name = Column(String(255))
+    mail = Column(String(255))
+    tosi = Column(Integer)
+
+
+    # get Dict data
+    def toDict(self):
+        return {
+            'id':int(self.id), 
+            'name':str(self.name), 
+            'mail':str(self.mail), 
+            'age':int(self.age)
+        }
