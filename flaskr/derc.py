@@ -25,7 +25,7 @@ app = Flask(__name__)
 app.secret_key = b'random string...'
 app.register_blueprint(bp_main)
 app.register_blueprint(bp_altruism)
-app.register_blueprint(bp_discussion)
+app.register_blueprint(bp_chatdiscussion)
 
 
 ###DB扱うコードの例始まり##################################################

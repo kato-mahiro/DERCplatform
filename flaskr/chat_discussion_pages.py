@@ -2,10 +2,10 @@
 from utils import *
 from global_settings import *
 from flask import Flask, flash, render_template, request, session, redirect, send_file, g, Blueprint
-bp_discussion = Blueprint('bp_discussion',__name__)
+bp_chatdiscussion = Blueprint('bp_chatdiscussion',__name__)
 
 #テキスト議論選択ページ
-@bp_discussion.route('/Channelselection_Chat', methods=['GET'])
+@bp_chatdiscussion.route('/Channelselection_Chat', methods=['GET'])
 def Channelselection_Chat():
     name = session['name']
     all_worksheet2 = np.array(worksheet2.get_all_values())#worksheet2の全てのログを持ってくる。################################################
@@ -51,7 +51,7 @@ def Channelselection_Chat():
             chan_list = chan_a)
 
 #テキスト議論を選択したら、各議論の状態のページに行くことができる（議論中→評価ページ、議論前→賭けページ、など）
-@bp_discussion.route('/ChannelSetting_Chat/<channel>', methods=['GET'])
+@bp_chatdiscussion.route('/ChannelSetting_Chat/<channel>', methods=['GET'])
 def ChannelSetting_Chat(channel):
     name = session['name']
     Number = 0
@@ -89,7 +89,7 @@ def ChannelSetting_Chat(channel):
         return redirect('/settingchat')
 
 #継続中に議論の時間を変更するページ。
-@bp_discussion.route('/Discussing_chat_change/<channel>', methods=['GET'])
+@bp_chatdiscussion.route('/Discussing_chat_change/<channel>', methods=['GET'])
 def Discussing_chat_change(channel):
     name = session['name']
     all_worksheet2 = np.array(worksheet2.get_all_values())#worksheet2の全てのログを持ってくる。################################################
@@ -124,7 +124,7 @@ def Discussing_chat_change(channel):
     name = name,
     title='Ending time')
 
-@bp_discussion.route('/Discussing_chat_change/<channel>', methods=['POST'])
+@bp_chatdiscussion.route('/Discussing_chat_change/<channel>', methods=['POST'])
 def Discussing_chat_change_POST(channel):
     discussionfinishdate = request.form.get('discussionfinishdate')#終了
     discussionfinishtime = request.form.get('discussionfinishtime')
@@ -148,7 +148,7 @@ def Discussing_chat_change_POST(channel):
     return redirect('/Discussing_Chat')
 
 #評価ページ
-@bp_discussion.route('/Discussing_Chat', methods=['GET'])
+@bp_chatdiscussion.route('/Discussing_Chat', methods=['GET'])
 def Discussing_Chat():
     channel = session['playingchannel']
     # slackのログを保存したスプレッドシートを指名する
@@ -207,14 +207,14 @@ def Discussing_Chat():
     channel = channel,
     title=channel +"  " 'Log')
 
-@bp_discussion.route('/Discussing_Chat', methods=['POST'])
+@bp_chatdiscussion.route('/Discussing_Chat', methods=['POST'])
 def Discussing_Chat_POST():
     log = request.form.get('item')
     print(log)
     return redirect('/')
 
 #評価ページ（最初の評価以外はこのページを使用する。）
-@bp_discussion.route('/hyouka/<number>', methods=['GET'])
+@bp_chatdiscussion.route('/hyouka/<number>', methods=['GET'])
 def hyouka(number):
 #スプレッドシートに保存する用プログラム始まり
     name = session['name']#評価の欄に書き込む自分の名前を取ってくる。
@@ -264,7 +264,7 @@ def hyouka(number):
     return redirect('/Discussing_Chat')
 
 #賭け対象選択ページ
-@bp_discussion.route('/kake_chat', methods=['GET'])
+@bp_chatdiscussion.route('/kake_chat', methods=['GET'])
 def kake_chat():
     channel = session['channel']
     name = session['name']
@@ -331,7 +331,7 @@ def kake_chat():
     kakesuu = kakepointhigh -kakepointlow + 1#賭けポイントの数
     )
 
-@bp_discussion.route('/kake_chat', methods=['POST'])
+@bp_chatdiscussion.route('/kake_chat', methods=['POST'])
 def kake_chat_POST():
     
     name = session['name']
@@ -366,7 +366,7 @@ def kake_chat_POST():
     return redirect('/Thankyou_Chat')
 
 #議論情報「nasi」から飛んできた場合、議論を設定できる
-@bp_discussion.route('/settingchat', methods=['GET'])
+@bp_chatdiscussion.route('/settingchat', methods=['GET'])
 def settingchat():
     channel = session['channel']
     name = session['name']
@@ -436,7 +436,7 @@ def settingchat():
         name = name,
         channel=channel)
 
-@bp_discussion.route('/settingchat', methods=['POST'])
+@bp_chatdiscussion.route('/settingchat', methods=['POST'])
 def settingchatPOST():
     discussionstartdate = request.form.get('discussionstartdate')#開始
     discussionstarttime = request.form.get('discussionstarttime')
@@ -477,7 +477,7 @@ def settingchatPOST():
     return redirect('/Thankyou_Chat')
 
 #Thank you言うページ
-@bp_discussion.route('/Thankyou_Chat', methods=['GET'])
+@bp_chatdiscussion.route('/Thankyou_Chat', methods=['GET'])
 def Thankyou_Chat():
     name = session['name']
     print(name)
