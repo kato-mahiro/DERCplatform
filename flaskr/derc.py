@@ -1,40 +1,16 @@
 #ssやGASなどはこちらのリンクから持ってきてください。https://drive.google.com/drive/folders/1zCVqcMWUY0W2wT9kEX5VcTyeV3cTgOsD?usp=sharing
 import io,sys
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
-from typing import Awaitable
-import json
-import subprocess
-import datetime
-import schedule
-import time
-from slack_sdk import WebClient
 from flask import Flask, flash, render_template, request, session, redirect, send_file, g
-import numpy as np
 from threading import Thread
 import sqlite3
-from sqlalchemy import create_engine, Column, Integer, String#以下4文SQLAlchemyのためのimport
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.orm.exc import NoResultFound
-#from routings import *
+
+#ページ設定ファイルのimport
 from main_pages import *
 from altruism_pages import *
 from chat_discussion_pages import *
 from web_discussion_pages import *
 from fitness_pages import *
-
-app = Flask(__name__)
-app.secret_key = b'random string...'
-app.register_blueprint(bp_main)
-app.register_blueprint(bp_altruism)
-app.register_blueprint(bp_chatdiscussion)
-app.register_blueprint(bp_webdiscussion)
-app.register_blueprint(bp_fitness)
-
-
-###DB扱うコードの例始まり##################################################
-
-
 
 #以下メモ
 #GASからDBを操作したいと思ったときに、定期実行の方法がないため次の方法で行う。
@@ -46,5 +22,12 @@ app.register_blueprint(bp_fitness)
 
 #外部公開したい場合は下のapp.runを使用する。ローカルでテストで走らせたいだけの場合は上のapp.runを使用する。
 if __name__ == '__main__':
+    app = Flask(__name__)
+    app.secret_key = b'random string...'
+    app.register_blueprint(bp_main)
+    app.register_blueprint(bp_altruism)
+    app.register_blueprint(bp_chatdiscussion)
+    app.register_blueprint(bp_webdiscussion)
+    app.register_blueprint(bp_fitness)
     app.run(debug=True)
     #app.run(debug=False, host='0.0.0.0', threaded=True, port=50009)
