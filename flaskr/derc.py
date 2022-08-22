@@ -19,13 +19,15 @@ from sqlalchemy.orm.exc import NoResultFound
 #from routings import *
 from main_pages import *
 from altruism_pages import *
-from discussion_pages import *
+from chat_discussion_pages import *
+from web_discussion_pages import *
 
 app = Flask(__name__)
 app.secret_key = b'random string...'
 app.register_blueprint(bp_main)
 app.register_blueprint(bp_altruism)
 app.register_blueprint(bp_chatdiscussion)
+app.register_blueprint(bp_webdiscussion)
 
 
 ###DB扱うコードの例始まり##################################################
