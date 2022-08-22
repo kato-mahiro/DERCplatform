@@ -1,5 +1,6 @@
 #ssやGASなどはこちらのリンクから持ってきてください。https://drive.google.com/drive/folders/1zCVqcMWUY0W2wT9kEX5VcTyeV3cTgOsD?usp=sharing
-
+import io,sys
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 from typing import Awaitable
 import json
 import subprocess
@@ -17,10 +18,12 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.exc import NoResultFound
 #from routings import *
 from main_pages import *
+from altruism_pages import *
 
 app = Flask(__name__)
 app.secret_key = b'random string...'
 app.register_blueprint(bp_main)
+app.register_blueprint(bp_altruism)
 
 
 ###DB扱うコードの例始まり##################################################

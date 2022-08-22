@@ -2,7 +2,7 @@
 from utils import *
 from global_settings import *
 from flask import Flask, flash, render_template, request, session, redirect, send_file, g, Blueprint
-bp_altruism = Blueprint('bp_main',__name__)
+bp_altruism = Blueprint('bp_altruism',__name__)
 
 #ページ選択ができるページ
 @bp_altruism.route('/rita', methods=['GET'])
