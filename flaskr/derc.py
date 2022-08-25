@@ -19,15 +19,13 @@ from fitness_pages import *
 #「DDG-database+チャットログ（重要）」のポイント管理（スプレッドシート）の3L~15Vを「derc.db」のbadgedataの3列目（receivePt_zentai）~12列目（receivePt_ritakouiLv2）の情報に更新する。
 #定期実行を関数を呼ぶことによって行いたいが、関数にしてflask内でその関数を呼んで実行するというやり方だとなぜかできないため、一つのページを更新した時に関数を呼ぶようにし、実験中はサーバー側でwebページを開いておき、定期で更新することでスクリプトが1分ごとに走る仕組みにする。
 
-
 #外部公開したい場合は下のapp.runを使用する。ローカルでテストで走らせたいだけの場合は上のapp.runを使用する。
-if __name__ == '__main__':
-    app = Flask(__name__)
-    app.secret_key = b'random string...'
-    app.register_blueprint(bp_main)
-    app.register_blueprint(bp_altruism)
-    app.register_blueprint(bp_chatdiscussion)
-    app.register_blueprint(bp_webdiscussion)
-    app.register_blueprint(bp_fitness)
-    app.run(debug=True)
-    #app.run(debug=False, host='0.0.0.0', threaded=True, port=50009)
+app = Flask(__name__)
+app.secret_key = b'random string...'
+app.register_blueprint(bp_main)
+app.register_blueprint(bp_altruism)
+app.register_blueprint(bp_chatdiscussion)
+app.register_blueprint(bp_webdiscussion)
+app.register_blueprint(bp_fitness)
+app.run(debug=True)
+#app.run(debug=False, host='0.0.0.0', threaded=True, port=50009)
